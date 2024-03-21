@@ -12,10 +12,9 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 // MongoDB User Schema
 const userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
   name: String,
   email: String,
+  password: String,
 });
 const User = mongoose.model("User", userSchema);
 
