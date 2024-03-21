@@ -21,7 +21,7 @@ const User = mongoose.model("User", userSchema);
 // <--------------------------------- key -------------------------------->
 
 // Define the schema for the key model
-const keySchema = new Schema({
+const keySchema = new mongoose.Schema({
   key: { type: String, required: true, unique: true },
   createdAt: { type: Date, default: Date.now },
 });
