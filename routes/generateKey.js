@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.post("/", async (req, res) => {
+router.post("/generate", async (req, res) => {
   try {
     const uniqueKey = await generateAndStoreKey();
     res.status(200).json({ key: uniqueKey });
