@@ -4,6 +4,7 @@ const { User } = require("../model/db.js");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken"); // Import jsonwebtoken module
+require("dotenv").config();
 
 router.use(express.json());
 
@@ -35,7 +36,7 @@ router.post("/signup", async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword, key });
     await newUser.save();
 
-    const token = jwt.sign({ userId: newUser._id }, "your_secret_key");
+    const token = jwt.sign({ userId: newUser._id }, process.env.SEC_KEY);
 
     res.status(201).json({ token });
   } catch (error) {
@@ -66,7 +67,7 @@ router.post("/signin", async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, "your_secret_key");
+    const token = jwt.sign({ userId: user._id }, process.env.SEC_KEY);
 
     res.status(200).json({ token });
   } catch (error) {

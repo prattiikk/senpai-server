@@ -18,4 +18,13 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model("User", userSchema);
 
-module.exports = { User };
+// <--------------------------------- key -------------------------------->
+
+// Define the schema for the key model
+const keySchema = new Schema({
+  key: { type: String, required: true, unique: true },
+  createdAt: { type: Date, default: Date.now },
+});
+const Key = mongoose.model("Key", keySchema);
+
+module.exports = { User, Key };

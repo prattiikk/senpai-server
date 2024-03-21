@@ -5,10 +5,10 @@ const { authenticateUser } = require("../controllers/controller.js");
 
 // Endpoint to get CLI commands
 router.post("/", async (req, res) => {
-  const { key, task } = req.body;
+  const { userid, password, task } = req.body;
 
   // Authenticate the user
-  const isAuthenticated = await authenticateUser(key);
+  const isAuthenticated = await authenticateUser(userid, password);
   if (!isAuthenticated) {
     return res.status(401).json({
       error: {
@@ -18,10 +18,10 @@ router.post("/", async (req, res) => {
   }
 
   const data = await askAI(task);
-  // console.log("inside post");
-  // data.forEach((element) => {
-  //   console.log(element);
-  // });
+  console.log("inside post");
+  data.forEach((element) => {
+    console.log(element);
+  });
   res.json(data);
 });
 
