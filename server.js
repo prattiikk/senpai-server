@@ -16,7 +16,7 @@ function authenticateJWT(req, res, next) {
   try {
     // Extract the token from the Authorization header
     const token = req.headers.authorization;
-    console.log(token);
+    // console.log(token);
     // Check if the Authorization header is present
     if (token) {
       // Split the header value to extract the token
@@ -35,6 +35,7 @@ function authenticateJWT(req, res, next) {
         } else {
           // If token is valid, attach the user object to the request and proceed to the next middleware
           req.user = user;
+          console.log("user is ------> ", req.user.userId);
           next();
         }
       });
