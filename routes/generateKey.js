@@ -6,11 +6,13 @@ router.use(express.json());
 
 router.get("/allKeys", async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
+    // console.log("user id is .", userId);
     // Find the user by ID and populate the keys field
     const user = await User.findById(userId).populate("keys");
 
+    console.log("user is : ", user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -20,7 +22,7 @@ router.get("/allKeys", async (req, res) => {
 
     res.status(200).json({ keys });
   } catch (error) {
-    console.error("Error retrieving keys:", error);
+    // console.error("Error retrieving keys:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
@@ -28,7 +30,8 @@ router.get("/allKeys", async (req, res) => {
 router.post("/generate", async (req, res) => {
   try {
     const userId = req.user.userId;
-    const uniqueKey = await generateAndStoreKey();
+    console.log("user inside route generate key : ", userId);
+    const uniqueKey = await generateAndStoreKey(userId);
     res.status(200).json({ key: uniqueKey, user: userId });
   } catch (error) {
     console.error("Error generating and storing key:", error);

@@ -10,7 +10,6 @@ const authenticateUser = async (userid, password) => {
   }
 };
 
-
 // Function to generate a unique key and store it in the database
 async function generateAndStoreKey(userId) {
   try {
@@ -20,9 +19,10 @@ async function generateAndStoreKey(userId) {
 
     // Check if the generated key already exists in the database
     const existingUser = await User.findById(userId);
+    console.log("user before generating : ", existingUser);
 
     if (!existingUser) {
-      throw new Error("User not found");
+      throw new Error("User not found here inside keyGenerator");
     }
 
     // Check if the generated key already exists in the user's keys array

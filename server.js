@@ -35,7 +35,7 @@ function authenticateJWT(req, res, next) {
         } else {
           // If token is valid, attach the user object to the request and proceed to the next middleware
           req.user = user;
-          console.log("user is ------> ", req.user.userId);
+          // console.log("user is ------> ", req.user.userId);
           next();
         }
       });
