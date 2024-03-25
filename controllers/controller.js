@@ -1,14 +1,14 @@
 const { User } = require("../model/db.js");
 const crypto = require("crypto");
 
-const authenticateUser = async (userid, password) => {
-  try {
-    const user = await User.findOne({ username: userid, password: password });
-    return !!user;
-  } catch (error) {
-    throw error;
-  }
-};
+// const authenticateUser = async (userid, password) => {
+//   try {
+//     const user = await User.findOne({ username: userid, password: password });
+//     return !!user;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 // Function to generate a unique key and store it in the database
 async function generateAndStoreKey(userId) {
@@ -47,6 +47,6 @@ async function generateAndStoreKey(userId) {
 }
 
 module.exports = {
-  authenticateUser,
+  // authenticateUser,
   generateAndStoreKey,
 };
