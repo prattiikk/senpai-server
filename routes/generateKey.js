@@ -1,16 +1,22 @@
 const express = require("express");
 const { generateAndStoreKey } = require("../controllers/controller");
 const router = express.Router();
-const { Key } = require("../model/db.js");
+const { User } = require("../model/db.js");
 router.use(express.json());
 
 router.get("/allKeys", async (req, res) => {
   try {
-    // Assuming you extract the user ID from the JWT token
-    const userId = req.user.id; // Adjust this according to your actual implementation
+    const userId = req.user.id;
 
-    // Find all keys associated with the user
-    const keys = await Key.find({ user: userId });
+    // Find the user by ID and populate the keys field
+    const user = await User.findById(userId).populate("keys");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Extract keys from the user object
+    const keys = user.keys;
 
     res.status(200).json({ keys });
   } catch (error) {
@@ -22,7 +28,6 @@ router.get("/allKeys", async (req, res) => {
 router.post("/generate", async (req, res) => {
   try {
     const userId = req.user.userId;
-    console.log("user inside the generate is -> ", userId);
     const uniqueKey = await generateAndStoreKey();
     res.status(200).json({ key: uniqueKey, user: userId });
   } catch (error) {

@@ -1,7 +1,6 @@
 const { User } = require("../model/db.js");
 const crypto = require("crypto");
-const { Key } = require("../model/db.js");
-// Example user authentication function
+
 const authenticateUser = async (userid, password) => {
   try {
     const user = await User.findOne({ username: userid, password: password });
@@ -11,28 +10,34 @@ const authenticateUser = async (userid, password) => {
   }
 };
 
+
 // Function to generate a unique key and store it in the database
-async function generateAndStoreKey() {
+async function generateAndStoreKey(userId) {
   try {
     // Generate a unique key
-    const keyLength = 32; // Specify the desired length of the key
+    const keyLength = 16; // Specify the desired length of the key
     const uniqueKey = crypto.randomBytes(keyLength).toString("hex");
 
     // Check if the generated key already exists in the database
-    const existingKey = await Key.findOne({ key: uniqueKey });
+    const existingUser = await User.findById(userId);
 
-    // If the key already exists, generate a new one
-    if (existingKey) {
-      return generateAndStoreKey();
+    if (!existingUser) {
+      throw new Error("User not found");
     }
 
-    // Create a new key document
-    const newKey = new Key({
-      key: uniqueKey,
-    });
+    // Check if the generated key already exists in the user's keys array
+    const keyExists = existingUser.keys.some((key) => key.key === uniqueKey);
 
-    // Save the new key document to the database
-    await newKey.save();
+    // If the key already exists, generate a new one
+    if (keyExists) {
+      return generateAndStoreKey(userId); // Recursively generate a new key
+    }
+
+    // Add the new key to the user's keys array
+    existingUser.keys.push({ key: uniqueKey });
+
+    // Save the updated user document to the database
+    await existingUser.save();
 
     return uniqueKey;
   } catch (error) {
