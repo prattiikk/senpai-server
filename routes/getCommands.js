@@ -5,7 +5,7 @@ const { askAI } = require("../API/askAI.js");
 const { User } = require("../model/db.js");
 // Endpoint to get CLI commands
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const { key, task } = req.body;
 
   try {
