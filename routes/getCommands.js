@@ -10,16 +10,16 @@ router.post("/", async (req, res) => {
 
   try {
     // Find the user associated with the provided key
-    // const user = await User.findOne({ keys: { $elemMatch: { key } } });
+    const user = await User.findOne({ keys: { $elemMatch: { key } } });
 
     // If user not found or key is invalid
-    // if (!user) {
-    //   return res.status(401).json({
-    //     error: {
-    //       message: "Authentication failed. Please provide a valid key.",
-    //     },
-    //   });
-    // }
+    if (!user) {
+      return res.status(401).json({
+        error: {
+          message: "Authentication failed. Please provide a valid key.",
+        },
+      });
+    }
     console.log("generating the commands waitttttttttt")
     // Authentication successful, proceed with the task
 
